@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Checkout Canteen System</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+
+    <style>
+        .container {
+            max-width: 80vw !important;
+        }
+
+        .modal-body {
+            height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header .close,
+        .modal-header .mailbox-attachment-close {
+            padding: 1rem;
+            margin: -1rem -1rem -1rem auto;
+            background: transparent;
+            border: none;
+        }
+
+        .close,
+        .mailbox-attachment-close {
+            float: right;
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1;
+            color: #000;
+            text-shadow: 0 1px 0 #fff;
+            opacity: .5;
+        }
+
+
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+        }
+
+        #attentionText {
+            animation: pulse 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <div id="template-bg-1">
+        <div class="row text-center py-2">
+            <h3 class="col-lg-12 mt-3 animate-text text-white">Welcome to Smart Checkout Canteen System</h3>
+        </div>
+        <p>Your tagline goes here.</p> -->
+
+
+    <!-- Webcam Stream -->
+
+    <div class="page-container">
+
+        <div id="index" class="page">
+            <div class="row m-0 text-center py-2 mt-4">
+                <h2 class="col-lg-12 animate-text text-primary" style="font-size:40px!important">Smart Checkout Canteen
+                    System</h2>
+            </div>
+            <div class="container">
+                <div class="row d-flex h-100 mb-5 justify-content-center align-items-center">
+                    <div class="col-12">
+
+
+                        <div class="card card-registration card-registration-2">
+                            <div class="card-body">
+                                <h5 id="attentionText" class="text-danger text-center" style="font-size:30px!important">
+                                    Pastikan guna tray, pinggan dan mangkuk yang tersedia sahaja untuk
+                                    imbasan tepat !
+                                </h5>
+                                <h5 class="text-muted text-center" style="font-size:20px!important">Make sure to use the
+                                    trays, plates and and bowls provided for accurate scanning!</h5> <br />
+
+
+                                <div class="row video justify-content-center">
+
+
+                                    <div class="col-lg-12" id="video-container" style="height: 60vh; position:relative">
+
+                                        <video id="video" class="video-container videoframe mx-auto col-lg-12"
+                                            autoplay></video>
+                                        <!-- Display Processed Image -->
+
+                                        <div id="processedImage"
+                                            class="processedImage-container videoframe mx-auto col-lg-12 justify-content-center align-items-center">
+                                            <img style="width:30%" src="images/cameraicon.png">
+                                        </div>
+
+
+                                        <div class="timeloader-container">
+                                            <div class="timeloader"></div>
+                                            <div class="timer" id="timer">3</div>
+                                        </div>
+
+
+
+
+
+
+
+                                    </div>
+                                    <div class="col-lg-12 ">
+                                        <div class="d-flex h-100">
+
+                                            <div class="align-self-center mx-auto">
+                                                <button type="button" id="btnStart"
+                                                    class="btn btn-primary mb-3 col-lg-12">
+                                                    Scan Food
+                                                </button>
+
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="cart" class="page">
+            <div class="row m-0 text-center py-2">
+                <h3 class="col-lg-12 animate-text text-white">Checkout</h3>
+            </div>
+            <div class="container">
+                <div class="row d-flex h-100 mb-5 justify-content-center align-items-center">
+                    <div class="col-12">
+
+
+                        <div class="card card-registration card-registration-2">
+                            <div class="card-body p-0">
+
+                                <div class="row g-0">
+                                    <div class="col-lg-12">
+                                        <div class="p-3">
+
+                                            <div class="d-flex justify-content-between align-items-center mb-5"
+                                                id="itembackBtn">
+                                                <a class="mb-0 text-muted text-decoration-none"
+                                                    style="font-size: 2.5rem !important;" onclick="location.reload();"
+                                                    href="#">🔙
+                                                    Back</a>
+                                                <h1 class="mb-0 text-muted" id="totalitem">0 items</h1>
+                                            </div>
+                                            <hr class="my-4">
+
+                                            <!-- <div class="loader-container3">
+                                                            <div class="loader"></div>
+                                                        </div> -->
+                                            <div id="detectedlist">
+
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </div>
+
+
+
+                                </div>
+
+
+                            </div>
+                            <div class="col-lg-12 bg-body-tertiary">
+                                <div class="p-3">
+                                    <div class="d-flex justify-content-between mb-5">
+                                        <h1 class="text-uppercase">Total price</h1>
+                                        <h1 id="finalAmt">RM 0.00</h1>
+                                    </div>
+
+                                    <div
+                                        class="d-flex flex-column flex-md-row gap-3 justify-content-center align-items-center">
+
+                                        <button type="button" id="btnPay" onclick="showPayAlert()" data-mdb-button-init
+                                            data-mdb-ripple-init class="btn btn-dark btn-lg"
+                                            data-mdb-ripple-color="dark">
+                                            Payment
+                                        </button>
+
+                                        <!-- <button type="button" id="btnAdd" onclick="showPageCart(0);" -->
+                                        <button type="button" id="btnAdd" data-bs-toggle="modal"
+                                            data-bs-target="#modal-addon" data-mdb-button-init data-mdb-ripple-init
+                                            class="btn btn-primary btn-lg" data-mdb-ripple-color="dark">
+                                            Add On
+                                        </button>
+
+                                        <button type="button" onclick="location.reload();" id="btnCancel"
+                                            data-mdb-button-init data-mdb-ripple-init class="btn btn-danger btn-lg"
+                                            data-mdb-ripple-color="dark">
+                                            Cancel
+                                        </button>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <hr class="my-4">
+                            <h5 class="text-primary text-center" style="font-size:40px!important">Please click ADD ON if
+                                the food does not appears after scan.</h5> <br />
+                            <h5 class="text-muted text-center" style="font-size:40px!important">Sila tekan ADD ON
+                                jika makanan tidak tertera selepas imbasan.</h5>
+                            <hr class="my-4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Fixed Footer -->
+    <div class="footer">
+        <strong>
+            Copyright &copy; 2025 <a href="https://corporate.murata.com/en-sg/company/asean/malaysia">
+                Murata
+                Electronics
+                (Malaysia) Sdn. Bhd
+            </a>.
+        </strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            <b>Version</b> 1.0.0
+        </div>
+        <br />
+
+        Technical Helpdesk/Support: please email to <b>nsyahirah.norsamsuddin@murata.com (MEB110)</b>
+
+    </div>
+    <div class="modal fade" id="modal-addon">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header justify-content-between">
+                    <a class="mb-0 text-muted text-decoration-none hidden cardHeader"
+                        style="font-size: 2.5rem !important;" onclick="showPageCart(0);" href="#">🔙</a>
+                    <h1 class="modal-title mx-auto">Pilih Makanan yang diambil<br /> (Select the Food)</h1>
+                    <button type="button" class="close mx-0" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="font-size: 2.5rem !important;">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Page container for sliding effect -->
+                <div class="modal-body p-0" style="overflow: hidden; position: relative; ">
+                    <div id="pageContainer" style="display: flex;  transition: transform 0.5s ease-in-out;">
+                        <div class="page-addon p-3" id="category" style="width: 100%;">
+                            <div class="row" id="list-category"></div>
+                        </div>
+                        <div class="page-addon p-3" id="item" style="width: 100%;">
+                            <div class="row" id="list-item"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-bs-dismiss="modal" class="btn btn-success btn-block btn-lg mx-auto"
+                        data-mdb-ripple-color="dark">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-pay">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header justify-content-between">
+                    <h1 class="modal-title">Submit Payment</h1>
+                    <!-- <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="font-size: 2.5rem !important;">&times;</span>
+                    </button> -->
+                </div>
+                <!--------------------NFC/QR Function start------------------------ -->
+                <div class="modal-body h-100">
+                    <div class="d-flex justify-content-center">
+                        <!-- <h6 class="animate-text my-auto " id="status">Please Scan DuitNow QR Below to Pay</h6> -->
+                        <div id="pay-container" class="pay-container d-flex justify-content-center align-items-center">
+
+                            <div class="timeloader2 mx-5"></div>
+                            <div class="timer2 text-secondary" id="timer2">30</div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center" style="margin-top:50px !important;">
+                        <h5 class="text-muted row" style="font-size:50px!important">Please Pay:</h5>
+                    </div>
+                    <div class="d-flex justify-content-center" style="margin-bottom:50px !important;">
+                        <h5 class="text-primary row" style="font-size:70px!important" id="paynote"></h5>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row align-items-center mb-3">
+
+                        <!-- Main NFC Image -->
+                        <img class="nfcImg col-12 col-md-7 col-lg-7 mx-auto mb-4 mb-md-0" id="nfcImg">
+
+                        <!-- MME-Star QR -->
+                        <div class="col-12 col-md-7 col-lg-7 mx-auto text-center" id="mmestar">
+
+                            <h5 class="display-6">MME-Star QR</h5>
+
+                            <div class="my-5 d-flex justify-content-center">
+                                <div class="nfcImg" id="starQR"></div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <input type="hidden" id="paymenttype" />
+                    <input type="hidden" id="transactionid" />
+                    <div class="d-flex my-3">
+                        <div id="btn-eWallet" class="mx-auto justify-content-center">
+                            <!-- <div class="d-flex"> -->
+                            <button type="button" onclick="saveRecord();" data-mdb-button-init data-mdb-ripple-init
+                                class="btn btn-success btn-block btn-lg mx-auto"
+                                data-mdb-ripple-color="dark">Complete</button>
+                            <button type="button" data-bs-dismiss="modal"
+                                class="btn btn-danger btn-block btn-lg mx-auto"
+                                data-mdb-ripple-color="dark">Cancel</button>
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    </div>
+    <!-- /.modal -->
+
+    <!-- </div> -->
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <script src="node_modules/qrcodejs2/qrcode.min.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/generateQR.js"></script>
+    <script src="js/cart.js"></script>
+
+
+
+    <script>
+        const video = document.getElementById("video");
+
+        document.querySelector('.timeloader-container').style.display = 'none';
+        document.querySelector('.processedImage-container').style.display = 'flex';
+        document.querySelector('.video-container').style.display = 'none';
+
+
+        let stream;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            sessionStorage.clear(); // Clear all session storage data
+            //loadPage('cart.html', 'cart');
+
+
+
+            //amend for tablet
+            var deviceType = isPC();
+            if (deviceType === false) {
+                $("#itembackBtn").css("display", "none");
+                loadAllforTablet();
+                showPage(1, "manual");
+
+            } else {
+                loadCategory();
+            }
+
+            $("#btnAdd").on('click', function () {
+                if (deviceType === false) {
+                    showPageCart(1, 0);
+                }
+                else {
+                    sessionStorage.setItem("isManual", "yes");
+                    showPageCart(0);
+
+                }
+
+            })
+
+
+            // const getPC = window.systemInfo.getPCName();
+
+
+            // if (getPC == "MME-DT0244" || getPC == "MME-DT0245" || getPC == "MME-DT0249") {
+            //     document.getElementById('nfcImg').src = "images/QR.PNG";
+            // }
+
+            // else {
+            //     document.getElementById('nfcImg').src = "images/QR2.PNG";
+            // }
+
+
+
+        });
+
+
+
+        document.getElementById('btnStart').addEventListener('click', function handleClick(event) {
+            const button = event.target;
+            button.disabled = true; // Disable the button to prevent double-click
+            startCamera(); // Call your function
+        });
+
+
+    </script>
+</body>
+
+</html>

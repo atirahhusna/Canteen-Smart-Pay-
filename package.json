@@ -1,0 +1,65 @@
+{
+  "name": "canteensmartpaysystem",
+  "version": "1.4.7",
+  "description": "",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://dev.azure.com/mmedevnodejs/_git/Canteen%20Smart%20Pay%20-%20Client%20System"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "build": "^0.1.4",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.7.1",
+    "qrcode": "^1.5.4",
+    "qrcodejs2": "^0.0.2",
+    "sweetalert2": "^11.26.24"
+  },
+  "devDependencies": {
+    "electron": "^40.8.5",
+    "electron-builder": "^26.15.3",
+    "electron-builder-squirrel-windows": "^26.8.1",
+    "electron-publish": "^26.8.1",
+    "electron-rebuild": "^2.0.3"
+  },
+  "build": {
+    "appId": "com.murata.canteensmartpaysystem",
+    "win": {
+      "target": "nsis",
+      "icon": "images/favicon.ico"
+    },
+    "extraResources": [
+      {
+        "from": "images",
+        "to": "images",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "js",
+        "to": "js",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "css",
+        "to": "css",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ]
+  }
+}
